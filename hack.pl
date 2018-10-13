@@ -9,21 +9,24 @@ eOT(than).
 
 splittingOp(then).
 
+% "set A to B", or "define A as B": A = B
 definition([defines,X,as,Y], X, Y).
 definition([sets,X,to,Y],X,Y).
 definition([define,X,as,Y], X, Y).
 definition([set,X,to,Y],X,Y).
 
+% "if X is less than Z then...":if x < Z ...
 conditional([if,X,is,Operator, than, Z,SO], Return) :- 
 	splittingOp(SO),Operator\=equal,getOp(Operator,Symbol),Return = [if,X,Symbol,Z,\n],!.
 conditional([if,X,is,equal,to,Z,then],Return) :- Return = [if,X,==,Z,\n],!.
 
-
+% The full conditional
 cond_statement(A,Return) :- append(X,Y,A), conditional(X,Ret1),!, append(I,J,Y), parse(I,Ret2), cond_ending(J,Ret3), append(Ret1,Ret2,RR), append(RR, Ret3, Return),!.
 
 cond_ending([and|A], Return) :- parse(A,Return),!.
 
 % "that takes in" to add vars
+% "define a function Name that takes in X and Y": define Name (X,Y)
 function(A,Z) :- X = [define,a,function,FuncName], append(X,RestofStart,A), append(X2,End,RestofStart), functionVars(X2, Ret1), parse(End,Ret2), append([def,FuncName], Ret1, Almost), append(Almost, [\n], Almost1), append(Ret2, [end,\n],Almost2), append(Almost1, Almost2, Z).
 
 functionVars([that,takes,in|X], Z) :- get_variables(X,Vars), B = ['(',Vars,')'], flatten(B,Z).
@@ -49,4 +52,3 @@ parse(X,Z) :- definition(X,A,B), Z = [A,=,B,\n], !.
 parse(A,Z) :- append(X,Y,A), X \= [], Y \= [], parse(X,NewX), parse(Y, NewY), append(NewX,NewY,Z),!.
 
 printParse(A) :- parse(A,Z), print(Z).
-
