@@ -15,8 +15,8 @@ def parse(words):
     query = '["' + '", "'.join(words.split(" ")) + '"]'
     print(list(prolog.query('parse(' + query + ', X), hello(X)')))
 
-def recognize_speech():
-    r = sr.Recognizer()
+r = sr.Recognizer()
+while(True):
     with sr.Microphone() as source:
         print("adjusting for ambient noise")
         r.adjust_for_ambient_noise(source)
@@ -24,10 +24,11 @@ def recognize_speech():
         audio = r.listen(source)
         print("finished recording")
         try:
-            parse(r.recognize_google(audio))
+            a = r.recognize_google(audio).lower()
+            print(a)
+            parse(a)
+
         except sr.UnknownValueError:
             print("couldn't understand")
         except sr.RequestError as e:
             print("failed: {0}".format(e))
-
-recognize_speech()
