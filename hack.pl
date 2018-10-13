@@ -16,7 +16,7 @@ definition([define,X,as,Y], X, Y).
 definition([set,X,to,Y],X,Y).
 
 % "if X is less than Z then...":if x < Z ...
-conditional([if,X,is,Operator, than, Z,SO], Return) :- 
+conditional([if,X,is,Operator, than, Z,SO], Return) :-
 	splittingOp(SO),Operator\=equal,getOp(Operator,Symbol),Return = [if,X,Symbol,Z,\n],!.
 conditional([if,X,is,equal,to,Z,then],Return) :- Return = [if,X,==,Z,\n],!.
 
