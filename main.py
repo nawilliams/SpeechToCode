@@ -9,8 +9,13 @@ registerForeign(hello)
 
 prolog = Prolog()
 prolog.consult("hack.pl")
-print(list(prolog.query('parse(["set", "a", "to", "b"], X), hello(X)')))
 
+
+def parse(words):
+    query = '["' + '", "'.join(words.split(" ")) + '"]'
+    print(list(prolog.query('parse(' + query + ', X), hello(X)')))
+
+parse("set a to b")
 
 def recognize_speech():
     r = sr.Recognizer()
