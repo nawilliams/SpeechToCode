@@ -18,3 +18,5 @@ with sr.Microphone() as source:
     except sr.RequestError as e:
         print(text, e)
         sys.exit(-1)
+    except sr.UnknownValueError:
+        print("unknown")
