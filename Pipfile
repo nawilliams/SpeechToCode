@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 pyswip = "*"
 speechrecognition = "*"
+pyaudio = "*"
 
 [dev-packages]
 
