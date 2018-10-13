@@ -3,9 +3,9 @@
 last(X,[X]).
 last(X,[_|Z]) :- last(X,Z).
 
-getOp(less, "<").
-getOp(greater,">").
-getOp(equal,"==").
+getOp("less", "<").
+getOp("greater",">").
+getOp("equal","==").
 
 eOT("else").
 eOT("than").
