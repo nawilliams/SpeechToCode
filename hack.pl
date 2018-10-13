@@ -1,10 +1,5 @@
 % Hackathon Project for Hack UMass 2018
 
-% this creates a new => operator to have the same priority as +
-% seems to make it behave as you would expect.
-:- op(200, xfx, =>).
-=>(_,_).
-
 getOp(less, <).
 getOp(greater,>).
 getOp(equal,==).
