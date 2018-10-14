@@ -45,7 +45,7 @@ definition(["let",X,"equal"|Y],X,Y) :- operation(Y).
 definition(["let",X,"be"|Y],X,Y) :- operation(Y).
 definition(["defines",X,"as"|Y], X, Y) :- operation(Y).
 definition(["sets",X,"to"|Y],X,Y) :- operation(Y).
-definition(["set",X,"as"|Y],X,Y) :- operaton(Y).
+definition(["set",X,"as"|Y],X,Y) :- operation(Y).
 definition(["set",X,"equal","to"|Y],X,Y) :- operation(Y).
 definition(["set",X,"equals"|Y],X,Y) :- operation(Y).
 definition(["define",X,"as"|Y], X, Y) :- operation(Y).
