@@ -59,31 +59,31 @@ def parse(words):
 
 r = sr.Recognizer()
 while(True):
-    input("Press enter to record")
-    with sr.Microphone() as source:
-        print(color("adjusting for ambient noise", colors.cyan))
-        r.adjust_for_ambient_noise(source)
-        print(color("Recording...", colors.green))
-        audio = r.listen(source)
-        print(color("finished recording\n", colors.cyan))
-        try:
-            a = r.recognize_google(audio).lower()
-            #a = r.recognize_google_cloud(audio,GOOGLE_CLOUD_SPEECH_CREDENTIALS, preferred_phrases=["define", "set", "as", "print", b]).lower()
+    a = input("Press enter to record or type in command:\n")
+    if not a:
+        with sr.Microphone() as source:
+            print(color("adjusting for ambient noise", colors.cyan))
+            r.adjust_for_ambient_noise(source)
+            print(color("Recording...", colors.green))
+            audio = r.listen(source)
+            print(color("finished recording\n", colors.cyan))
+            try:
+                a = r.recognize_google(audio).lower()
+                #a = r.recognize_google_cloud(audio,GOOGLE_CLOUD_SPEECH_CREDENTIALS, preferred_phrases=["define", "set", "as", "print", b]).lower()
+            except sr.UnknownValueError:
+                print(color("couldn't understand", colors.red))
+            except sr.RequestError as e:
+                print(color("failed: {0}".format(e), colors.h_red))
 
-            if a == "reset" or a == "erase":
-                print(color("Resetting...", colors.magenta))
-                reset()
-            elif a == "run" or a == "execute":
-                run()
-            else:
-                print(color(a, colors.yellow))
+    if a == "reset" or a == "erase":
+        print(color("Resetting...", colors.magenta))
+        reset()
+    elif a == "run" or a == "execute":
+        run()
+    else:
+        print(color(a, colors.yellow))
 
-                f = open("program.rb", "a")
-                f.write(parse(a))
-                f.close()
-            print()
-
-        except sr.UnknownValueError:
-            print(color("couldn't understand", colors.red))
-        except sr.RequestError as e:
-            print(color("failed: {0}".format(e), colors.h_red))
+        f = open("program.rb", "a")
+        f.write(parse(a))
+        f.close()
+    print()
