@@ -49,7 +49,7 @@ def clean(words):
     while(r):
         words = re.sub(r'(.*)(\d)([a-zA-Z])(.*)', r'\1\2 \3\4', words)
         r = re.match(r'.*\d[a-zA-Z].*', words)
-    if words[0] == '4':
+    if words and words[0] == '4':
         words = 'for' + words[1:]
     return words
 
