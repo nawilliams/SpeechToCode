@@ -31,6 +31,7 @@ operator("||").
 operator("or").
 
 bFunc("print", "puts").
+bFunc("prints", "puts"). % to help with speech recognition
 bFunc("puts", "puts").
 
 eOT("else").
