@@ -10,6 +10,8 @@ registerForeign(hello)
 prolog = Prolog()
 prolog.consult("hack.pl")
 
+with open("api-key.json") as f:
+    GOOGLE_CLOUD_SPEECH_CREDENTIALS = f.read()
 
 def parse(words):
     query = '["' + '", "'.join(words.split(" ")) + '"]'
@@ -17,6 +19,7 @@ def parse(words):
 
 r = sr.Recognizer()
 while(True):
+    input("Press enter to record line")
     with sr.Microphone() as source:
         print("adjusting for ambient noise")
         r.adjust_for_ambient_noise(source)
@@ -24,7 +27,7 @@ while(True):
         audio = r.listen(source)
         print("finished recording")
         try:
-            a = r.recognize_google(audio).lower()
+            a = r.recognize_google_cloud(audio,GOOGLE_CLOUD_SPEECH_CREDENTIALS, preferred_phrases=["define", "set", "as"]).lower()
             print(a)
             parse(a)
 
