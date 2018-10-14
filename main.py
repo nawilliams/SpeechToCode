@@ -1,6 +1,7 @@
 from pyswip import Prolog, registerForeign
 import speech_recognition as sr
 from subprocess import call
+import re
 
 class colors:
     gray = '\033[1;30m'
@@ -24,12 +25,6 @@ class colors:
 def color(string, color):
     return color + string + '\033[1;m'
 
-prolog = Prolog()
-prolog.consult("hack.pl")
-
-#with open("api-key.json") as f:
-#    GOOGLE_CLOUD_SPEECH_CREDENTIALS = f.read()
-
 def reset():
     f = open("program.rb", "w")
     f.write("")
@@ -49,6 +44,16 @@ def run():
     """, colors.gray))
 
 
+def clean(words):
+    r = re.match(r'.*\d[a-zA-Z].*', words)
+    while(r):
+        words = re.sub(r'(.*)(\d)([a-zA-Z])(.*)', r'\1\2 \3\4', words)
+        r = re.match(r'.*\d[a-zA-Z].*', words)
+    if words and words[0] == '4':
+        words = 'for' + words[1:]
+    return words
+
+
 def parse(words):
     query = '["' + '", "'.join(words.split(" ")) + '"]'
     out = list(prolog.query('parse(' + query + ', X)'))
@@ -57,7 +62,14 @@ def parse(words):
         return ""
     return " ".join(map(lambda x: x.decode('ascii'), out[0]["X"]))
 
+prolog = Prolog()
+prolog.consult("hack.pl")
+
+with open("api-key.json") as f:
+    GOOGLE_CLOUD_SPEECH_CREDENTIALS = f.read()
+
 r = sr.Recognizer()
+
 while(True):
     a = input("Press enter to record or type in command:\n")
     if not a:
@@ -81,6 +93,7 @@ while(True):
     elif a == "run" or a == "execute":
         run()
     else:
+        a = clean(a)
         print(color(a, colors.yellow))
 
         f = open("program.rb", "a")
