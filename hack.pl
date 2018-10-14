@@ -80,7 +80,9 @@ function(A,Z) :-  append(X,End,A), X = ["define","a","function",FuncName], parse
 
 
 % function that was defined by the user being called
-called_function(["call"|Func],Z) :- append(FuncName, Args, Func), get_args(Args, ConvertedArgs), H = [FuncName, "(", ConvertedArgs, ")", "\n"], flatten(H,Z).
+called_function(["call",FuncName,"of"|Args],Z) :- get_args(Args, ConvertedArgs), H = [FuncName, "(", ConvertedArgs, ")", "\n"], flatten(H,Z).
+
+called_function(["call",FuncName,|Args],Z) :- get_args(Args, ConvertedArgs), H = [FuncName, "(", ConvertedArgs, ")", "\n"], flatten(H,Z).
 
 functionVars(["that","takes","in"|X], Z) :- get_variables(X,Vars), B = ["(",Vars,")"], flatten(B,Z).
 % functionVars([], []).
