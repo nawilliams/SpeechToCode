@@ -30,7 +30,8 @@ operator("and").
 operator("||").
 operator("or").
 
-bFunc("print").
+bFunc("print", "puts").
+bFunc("puts", "puts").
 
 
 eOT("else").
@@ -39,6 +40,7 @@ eOT("than").
 splittingOp("then").
 
 % "set A to B", or "define A as B": A = B
+definition([X, "is", "equal","to"|Y],X,Y) :- operation(Y).
 definition(["let",X,"equal"|Y],X,Y) :- operation(Y).
 definition(["let",X,"be"|Y],X,Y) :- operation(Y).
 definition(["defines",X,"as"|Y], X, Y) :- operation(Y).
@@ -91,7 +93,7 @@ get_variables([X],[X]) :- !.
 get_args([X],[X]) :- !.
 get_args([X,"and"|Y], Z) :- get_args(Y, Rest),!, append([X, ","], Rest, Z),!.
 
-base_function([Name|Rest], Name, Args) :- bFunc(Name), get_args(Rest, Args).
+base_function([Name|Rest], NewName, Args) :- bFunc(Name, NewName), get_args(Rest, Args).
 
 
 % parse(A,Z) :- conditional(A,Z),!.
