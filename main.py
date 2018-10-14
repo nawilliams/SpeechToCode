@@ -50,7 +50,6 @@ def run():
 
 
 def parse(words):
-
     query = '["' + '", "'.join(words.split(" ")) + '"]'
     out = list(prolog.query('parse(' + query + ', X)'))
     if not out:
@@ -60,25 +59,29 @@ def parse(words):
 
 r = sr.Recognizer()
 while(True):
-    input("\nPress enter to record line")
+    input("Press enter to record")
     with sr.Microphone() as source:
-        print(color("adjusting for ambient noise", colors.blue))
+        print(color("adjusting for ambient noise", colors.cyan))
         r.adjust_for_ambient_noise(source)
-        print(color("recording", colors.blue))
+        print(color("Recording...", colors.green))
         audio = r.listen(source)
-        print(color("finished recording", colors.blue))
+        print(color("finished recording\n", colors.cyan))
         try:
             a = r.recognize_google(audio).lower()
-            #a = r.recognize_google_cloud(audio,GOOGLE_CLOUD_SPEECH_CREDENTIALS, preferred_phrases=["define", "set", "as"]).lower()
+            #a = r.recognize_google_cloud(audio,GOOGLE_CLOUD_SPEECH_CREDENTIALS, preferred_phrases=["define", "set", "as", "print", b]).lower()
 
-            print(color(a, colors.h_green))
             if a == "reset" or a == "erase":
+                print(color("Resetting...", colors.magenta))
                 reset()
-            if a == "run" or a == "execute":
+            elif a == "run" or a == "execute":
                 run()
-            f = open("program.rb", "a")
-            f.write(parse(a))
-            f.close()
+            else:
+                print(color(a, colors.yellow))
+
+                f = open("program.rb", "a")
+                f.write(parse(a))
+                f.close()
+            print()
 
         except sr.UnknownValueError:
             print(color("couldn't understand", colors.red))
