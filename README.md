@@ -14,3 +14,6 @@ Linux:
 ### install python packages
 
 `pipenv install`
+
+### fix Google cloud recognition 
+change line `924` in `speech_recognition/__init__.py` (reccomend using go to definition on `r.recognize_google_cloud()`)
