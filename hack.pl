@@ -9,6 +9,7 @@ getOp("equal","==").
 
 operation([Y]).
 operation([A,C|B]) :- operator(C), operation(B).
+operation([A,C|B]) :- operator(C), parse(B,X).
 
 operator("+").
 operator("plus").
