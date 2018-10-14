@@ -96,7 +96,7 @@ get_variables([X],[X]) :- !.
 % get_variables([X,"and"|Y], Z) :- get_variables(Y, Rest),!, append([X, ","], Rest, Z),!.
 % get_variables([], []).
 
-get_args([X],[X]) :- !.
+get_args(X,X) :- operation(X),!.
 get_args([X,"and"|Y], Z) :- get_args(Y, Rest),!, append([X, ","], Rest, Z),!.
 
 base_function([Name|Rest], NewName, Args) :- bFunc(Name, NewName), get_args(Rest, Args).
