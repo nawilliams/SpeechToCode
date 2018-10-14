@@ -79,6 +79,10 @@ function(A,Z) :-  append(X,NotEnd,A), X = ["define","a","function",FuncName], ap
 function(A,Z) :-  append(X,End,A), X = ["define","a","function",FuncName], parse(End,Ret2), append(["def",FuncName], ["\n"], Almost1), append(Ret2, ["end","\n"],Almost2), append(Almost1, Almost2, Z).
 
 
+function_header(A,Z) :- A = ["define","a","function",FuncName], Z = ["def",FuncName,"\n"].
+function_header(A,Z) :- A = ["define","a","function",FuncName, "that","takes","in"|Args], get_variables(Args,ConvertedArgs),H = ["def",FuncName,"(",ConvertedArgs,")","\n"], flatten(H,Z).
+
+
 % function that was defined by the user being called
 called_function(["call",FuncName,"of"|Args],Z) :- get_args(Args, ConvertedArgs), H = [FuncName, "(", ConvertedArgs, ")", "\n"], flatten(H,Z).
 
@@ -109,7 +113,9 @@ parse(A,Z) :- splittingOp(H), append(X, [H|Y], A), parse(X,Ret1), parse(Y,Ret2),
 parse(A,Z) :- for_loop(A,Z),!.
 
 parse(A,Z) :- called_function(A,Z),!.
+parse(A,Z) :- function_header(A,Z),!.
 parse(A,Z) :- function(A,Z),!.
+parse(A,Z) :- A = ["end"],Z=["end","\n"],!.
 parse(A,Z) :- cond_statement(A,Z),!.
 parse(X,Z) :- definition(X,A,B), H = [A,"=",B,"\n"], flatten(H,Z), !.
 parse(X,Z) :- base_function(X, FuncName, Args),H=[FuncName,"(",Args,")","\n"],flatten(H,Z), !. 
