@@ -30,6 +30,8 @@ operator("and").
 operator("||").
 operator("or").
 
+bFunc("print").
+
 
 eOT("else").
 eOT("than").
@@ -74,22 +76,34 @@ function(A,Z) :-  append(X,NotEnd,A), X = ["define","a","function",FuncName], ap
 % without parameters
 function(A,Z) :-  append(X,End,A), X = ["define","a","function",FuncName], parse(End,Ret2), append(["def",FuncName], ["\n"], Almost1), append(Ret2, ["end","\n"],Almost2), append(Almost1, Almost2, Z).
 
+
+% function that was defined by the user being called
+called_function(["call"|Func],Z) :- append(FuncName, Args, Func), get_args(Args, ConvertedArgs), H = [FuncName, "(", ConvertedArgs, ")", "\n"], flatten(H,Z).
+
 functionVars(["that","takes","in"|X], Z) :- get_variables(X,Vars), B = ["(",Vars,")"], flatten(B,Z).
 % functionVars([], []).
 
-
+% currently doesn't work with multiple parameters
 get_variables([X],[X]) :- !.
-% get_variables([X,"and"|Y], Z) :- get_variables(Y, Rest),!, append([X], Rest, Z),!.
+% get_variables([X,"and"|Y], Z) :- get_variables(Y, Rest),!, append([X, ","], Rest, Z),!.
 % get_variables([], []).
+
+get_args([X],[X]) :- !.
+get_args([X,"and"|Y], Z) :- get_args(Y, Rest),!, append([X, ","], Rest, Z),!.
+
+base_function([Name|Rest], Name, Args) :- bFunc(Name), get_args(Rest, Args).
 
 
 parse(A,Z) :- splittingOp(H), append(X, [H|Y], A), parse(X,Ret1), parse(Y,Ret2), append(Ret1,Ret2,Z),!.
 
 % parse(A,Z) :- conditional(A,Z),!.
 
+
+parse(A,Z) :- called_function(A,Z),!.
 parse(A,Z) :- function(A,Z),!.
 parse(A,Z) :- cond_statement(A,Z),!.
 parse(X,Z) :- definition(X,A,B), H = [A,"=",B,"\n"], flatten(H,Z), !.
+parse(X,Z) :- base_function(X, FuncName, Args),H=[FuncName,"(",Args,")","\n"],flatten(H,Z), !. 
 
 parse(A,Z) :- append(X,Y,A), X \= [], Y \= [], parse(X,NewX), parse(Y, NewY), append(NewX,NewY,Z),!.
 
