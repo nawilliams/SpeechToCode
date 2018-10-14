@@ -7,6 +7,11 @@ name = "pypi"
 pyswip = "*"
 speechrecognition = "*"
 pyaudio = "*"
+google-api-python-client = "*"
+google-cloud-speech = "*"
+tqdm = "*"
+"oauth2client" = "*"
+"httplib2" = "*"
 
 [dev-packages]
 pylint = "*"

@@ -6,6 +6,7 @@ HackUmass 2018
 
 MacOS:
 `brew install portaudio`
+`brew install swi-prolog`
 
 Linux:
 `sudo apt install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0 ffmpeg libav-tools`
