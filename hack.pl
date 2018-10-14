@@ -82,6 +82,9 @@ function(A,Z) :-  append(X,End,A), X = ["define","a","function",FuncName], parse
 function_header(A,Z) :- A = ["define","a","function",FuncName], Z = ["def",FuncName,"\n"].
 function_header(A,Z) :- A = ["define","a","function",FuncName, "that","takes","in"|Args], get_variables(Args,ConvertedArgs),H = ["def",FuncName,"(",ConvertedArgs,")","\n"], flatten(H,Z).
 
+function_header(A,Z) :- A = ["define","function",FuncName], Z = ["def",FuncName,"\n"].
+function_header(A,Z) :- A = ["define","function",FuncName, "that","takes","in"|Args], get_variables(Args,ConvertedArgs),H = ["def",FuncName,"(",ConvertedArgs,")","\n"], flatten(H,Z).
+
 
 % function that was defined by the user being called
 called_function(["call",FuncName,"of"|Args],Z) :- get_args(Args, ConvertedArgs), H = [FuncName, "(", ConvertedArgs, ")", "\n"], flatten(H,Z).
