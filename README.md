@@ -21,8 +21,12 @@ Linux:
 
 change line `924` in `speech_recognition/__init__.py` (reccomend using go to definition on `r.recognize_google_cloud()`)
 
+## python script
+Currently can either use voice recognition to parse code or type in the text.
+Run/execute commands run the current ruby code.
+Reset clears the ruby file.
 
-### Current working commands
+## Current working commands that can be translated
 define/set X to Y: used to set variables
 if: conditional compares
 for: basic loops with a counter
