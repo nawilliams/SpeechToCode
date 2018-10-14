@@ -33,7 +33,6 @@ operator("or").
 bFunc("print", "puts").
 bFunc("puts", "puts").
 
-
 eOT("else").
 eOT("than").
 
@@ -95,7 +94,6 @@ get_args([X,"and"|Y], Z) :- get_args(Y, Rest),!, append([X, ","], Rest, Z),!.
 
 base_function([Name|Rest], NewName, Args) :- bFunc(Name, NewName), get_args(Rest, Args).
 
-
 % parse(A,Z) :- conditional(A,Z),!.
 
 for_loop(A, Return) :- for_values(A, Var, X, Y, Z), string_concat(X, "..", Xdots), string_concat(Xdots, Y, Range),
@@ -106,7 +104,6 @@ for_values(["for",Var,"in",X,"to",Y|Z], Var, X, Y, Z).
 parse(A,Z) :- splittingOp(H), append(X, [H|Y], A), parse(X,Ret1), parse(Y,Ret2), append(Ret1,Ret2,Z),!.
 
 parse(A,Z) :- for_loop(A,Z),!.
-
 
 parse(A,Z) :- called_function(A,Z),!.
 parse(A,Z) :- function(A,Z),!.
