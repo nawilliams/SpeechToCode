@@ -134,6 +134,7 @@ parse(A,Z) :- called_function(A,Z),!.
 parse(A,Z) :- function_header(A,Z),!.
 parse(A,Z) :- function(A,Z),!.
 parse(A,Z) :- A = ["end"],Z=["end","\n"],!.
+parse(A,Z) :- conditional(A,Z),!.
 parse(A,Z) :- cond_statement(A,Z),!.
 parse(X,Z) :- definition(X,A,B), H = [A,"=",B,"\n"], flatten(H,Z), !.
 parse(X,Z) :- base_function(X, FuncName, Args),get_args(Args, ConvertArgs),H=[FuncName,"(",ConvertArgs,")","\n"],flatten(H,Z), !. 
