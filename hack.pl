@@ -52,6 +52,19 @@ definition(["define",X,"as"|Y], X, Y) :- operation(Y).
 definition(["define",X,"to"|Y],X,Y) :- operation(Y).
 definition(["set",X,"to"|Y],X,Y) :- operation(Y).
 
+
+definition([X, "is", "equal","to"|Y],X,Z) :- parse(Y,Z).
+definition(["let",X,"equal"|Y],X,Z) :- parse(Y,Z).
+definition(["let",X,"be"|Y],X,Z) :- parse(Y,Z).
+definition(["defines",X,"as"|Y], X, Z) :- parse(Y,Z).
+definition(["sets",X,"to"|Y],X,Z) :- parse(Y,Z).
+definition(["set",X,"as"|Y],X,Z) :-parse(Y,Z).
+definition(["set",X,"equal","to"|Y],X,Z) :- parse(Y,Z).
+definition(["set",X,"equals"|Y],X,Z) :- parse(Y,Z).
+definition(["define",X,"as"|Y], X, Z) :- parse(Y,Z).
+definition(["define",X,"to"|Y],X,Z) :- parse(Y,Z).
+definition(["set",X,"to"|Y],X,Z) :- parse(Y,Z).
+
 % "if X is less than Z then...":if x < Z ...
 
 conditional(["if",X,"is",Operator, "than", Z,SO], Return) :- 
