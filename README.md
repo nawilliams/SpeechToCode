@@ -1,6 +1,8 @@
-# SignItSayIt
+# Speech To Code
 
 HackUmass 2018
+
+## Setup
 
 ### install dependencies
 
@@ -15,5 +17,6 @@ Linux:
 
 `pipenv install`
 
-### fix Google cloud recognition 
+### fix Google cloud recognition
+
 change line `924` in `speech_recognition/__init__.py` (reccomend using go to definition on `r.recognize_google_cloud()`)
