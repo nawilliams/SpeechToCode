@@ -1,6 +1,8 @@
 # Speech To Code
 
-HackUmass 2018
+### HackUmass 2018
+
+This is an application designed to make coding easier! No longer do you need to use your noodly appendages to write your programs. Instead now you can just sqauwk at your computer and it'll do it all for you. Want to code from across the room? You can do that with this program!
 
 ## Setup
 
