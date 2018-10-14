@@ -52,6 +52,19 @@ definition(["define",X,"as"|Y], X, Y) :- operation(Y).
 definition(["define",X,"to"|Y],X,Y) :- operation(Y).
 definition(["set",X,"to"|Y],X,Y) :- operation(Y).
 
+
+definition([X, "is", "equal","to"|Y],X,Z) :- parse(Y,Z).
+definition(["let",X,"equal"|Y],X,Z) :- parse(Y,Z).
+definition(["let",X,"be"|Y],X,Z) :- parse(Y,Z).
+definition(["defines",X,"as"|Y], X, Z) :- parse(Y,Z).
+definition(["sets",X,"to"|Y],X,Z) :- parse(Y,Z).
+definition(["set",X,"as"|Y],X,Z) :-parse(Y,Z).
+definition(["set",X,"equal","to"|Y],X,Z) :- parse(Y,Z).
+definition(["set",X,"equals"|Y],X,Z) :- parse(Y,Z).
+definition(["define",X,"as"|Y], X, Z) :- parse(Y,Z).
+definition(["define",X,"to"|Y],X,Z) :- parse(Y,Z).
+definition(["set",X,"to"|Y],X,Z) :- parse(Y,Z).
+
 % "if X is less than Z then...":if x < Z ...
 
 conditional(["if",X,"is",Operator, "than", Z,SO], Return) :- 
@@ -82,6 +95,9 @@ function(A,Z) :-  append(X,End,A), X = ["define","a","function",FuncName], parse
 function_header(A,Z) :- A = ["define","a","function",FuncName], Z = ["def",FuncName,"\n"].
 function_header(A,Z) :- A = ["define","a","function",FuncName, "that","takes","in"|Args], get_variables(Args,ConvertedArgs),H = ["def",FuncName,"(",ConvertedArgs,")","\n"], flatten(H,Z).
 
+function_header(A,Z) :- A = ["define","function",FuncName], Z = ["def",FuncName,"\n"].
+function_header(A,Z) :- A = ["define","function",FuncName, "that","takes","in"|Args], get_variables(Args,ConvertedArgs),H = ["def",FuncName,"(",ConvertedArgs,")","\n"], flatten(H,Z).
+
 
 % function that was defined by the user being called
 called_function(["call",FuncName,"of"|Args],Z) :- get_args(Args, ConvertedArgs), H = [FuncName, "(", ConvertedArgs, ")", "\n"], flatten(H,Z).
@@ -96,7 +112,7 @@ get_variables([X],[X]) :- !.
 % get_variables([X,"and"|Y], Z) :- get_variables(Y, Rest),!, append([X, ","], Rest, Z),!.
 % get_variables([], []).
 
-get_args([X],[X]) :- !.
+get_args(X,X) :- operation(X),!.
 get_args([X,"and"|Y], Z) :- get_args(Y, Rest),!, append([X, ","], Rest, Z),!.
 
 base_function([Name|Rest], NewName, Args) :- bFunc(Name, NewName), get_args(Rest, Args).
