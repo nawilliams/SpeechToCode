@@ -73,7 +73,7 @@ cond_ending(["and"|A], Return) :- parse(A,R), append(R, ["end","\n"], Return), !
 % "define a function Name that takes in X and Y": define Name (X,Y)
 
 % with parameters
-function(A,Z) :-  append(X,NotEnd,A), X = ["define","a","function",FuncName], append(Variables, End, NotEnd), functionVars(Variables, RetVars),parse(End,EndRet), append(RetVars, EndRet, Ret2),append(["def",FuncName], ["\n"], Almost1), append(Ret2, ["end","\n"],Almost2), append(Almost1, Almost2, Z).
+function(A,Z) :-  append(X,NotEnd,A), X = ["define","a","function",FuncName], append(Variables, End, NotEnd), functionVars(Variables, RetVars),parse(End,Ret2), append(["def",FuncName], RetVars, Almost1), append(Ret2, ["end","\n"],Almost2), append(Almost1, Almost2, Z).
 
 % without parameters
 function(A,Z) :-  append(X,End,A), X = ["define","a","function",FuncName], parse(End,Ret2), append(["def",FuncName], ["\n"], Almost1), append(Ret2, ["end","\n"],Almost2), append(Almost1, Almost2, Z).
@@ -82,9 +82,9 @@ function(A,Z) :-  append(X,End,A), X = ["define","a","function",FuncName], parse
 % function that was defined by the user being called
 called_function(["call",FuncName,"of"|Args],Z) :- get_args(Args, ConvertedArgs), H = [FuncName, "(", ConvertedArgs, ")", "\n"], flatten(H,Z).
 
-called_function(["call",FuncName,|Args],Z) :- get_args(Args, ConvertedArgs), H = [FuncName, "(", ConvertedArgs, ")", "\n"], flatten(H,Z).
+called_function(["call",FuncName|Args],Z) :- get_args(Args, ConvertedArgs), H = [FuncName, "(", ConvertedArgs, ")", "\n"], flatten(H,Z).
 
-functionVars(["that","takes","in"|X], Z) :- get_variables(X,Vars), B = ["(",Vars,")"], flatten(B,Z).
+functionVars(["that","takes","in"|X], Z) :- get_variables(X,Vars), B = ["(",Vars,")","\n"], flatten(B,Z).
 % functionVars([], []).
 
 % currently doesn't work with multiple parameters
