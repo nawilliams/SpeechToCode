@@ -33,6 +33,7 @@ operator("or").
 bFunc("print", "puts").
 bFunc("prints", "puts"). % to help with speech recognition
 bFunc("puts", "puts").
+bFunc("return","return").
 
 eOT("else").
 eOT("than").
@@ -134,7 +135,7 @@ parse(A,Z) :- function(A,Z),!.
 parse(A,Z) :- A = ["end"],Z=["end","\n"],!.
 parse(A,Z) :- cond_statement(A,Z),!.
 parse(X,Z) :- definition(X,A,B), H = [A,"=",B,"\n"], flatten(H,Z), !.
-parse(X,Z) :- base_function(X, FuncName, Args),H=[FuncName,"(",Args,")","\n"],flatten(H,Z), !. 
+parse(X,Z) :- base_function(X, FuncName, Args),get_args(Args, ConvertArgs),H=[FuncName,"(",ConvertArgs,")","\n"],flatten(H,Z), !. 
 
 parse(A,Z) :- append(X,Y,A), X \= [], Y \= [], parse(X,NewX), parse(Y, NewY), append(NewX,NewY,Z),!.
 
